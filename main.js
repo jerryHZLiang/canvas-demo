@@ -3,7 +3,7 @@ var ctx = canvas.getContext('2d');
 autoSetCanvasSize(canvas);
 
 /*************/
-ListenToMouse(canvas);
+ListenToUser(canvas);
 /*******/
 
 var eraserEnabled = false;
@@ -53,7 +53,7 @@ function drawLine(x1, y1, x2, y2) {
     ctx.closePath();
 }
 
-function ListenToMouse(canvas) {
+function ListenToUser(canvas) {
 
     var using = false;
     var lastPoint = {
@@ -61,40 +61,80 @@ function ListenToMouse(canvas) {
         y: undefined
     };
 
-    canvas.onmousedown = function (msg) {
-        var x = msg.clientX
-        var y = msg.clientY
-        using = true;
-        if (eraserEnabled) {
-            ctx.clearRect(x - 5, y - 5, 10, 10)
-        } else {
-            lastPoint = {
-                x: x,
-                y: y
+//特性检测
+    if (document.body.ontouchstart !== undefined) {
+        //触屏设备
+        canvas.ontouchstart = function (msg) {
+            var x = msg.touches[0].clientX
+            var y = msg.touches[0].clientY
+            using = true;
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                lastPoint = {
+                    x: x,
+                    y: y
+                }
             }
         }
-    }
-    
-    canvas.onmousemove = function (msg) {
-        var x = msg.clientX
-        var y = msg.clientY
-        if (!using) {
-            return
-        }
-
-        if (eraserEnabled) {
-            ctx.clearRect(x - 5, y - 5, 10, 10)
-        } else {
-            var newPoint = {
-                x: x,
-                y: y
+        canvas.ontouchmove = function (msg) {
+            var x = msg.touches[0].clientX
+            var y = msg.touches[0].clientY
+            if (!using) {
+                return
             }
-            drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
-            lastPoint = newPoint;
-        }
-    }
 
-    canvas.onmouseup = function (msg) {
-        using = false
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                var newPoint = {
+                    x: x,
+                    y: y
+                }
+                drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
+                lastPoint = newPoint;
+            }
+        }
+        canvas.ontouchend = function (msg) {
+            using = false
+        }
+    } else {
+        //非触屏设备
+        canvas.onmousedown = function (msg) {
+            var x = msg.clientX
+            var y = msg.clientY
+            using = true;
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                lastPoint = {
+                    x: x,
+                    y: y
+                }
+            }
+        }
+
+        canvas.onmousemove = function (msg) {
+            var x = msg.clientX
+            var y = msg.clientY
+            if (!using) {
+                return
+            }
+
+            if (eraserEnabled) {
+                ctx.clearRect(x - 5, y - 5, 10, 10)
+            } else {
+                var newPoint = {
+                    x: x,
+                    y: y
+                }
+                drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
+                lastPoint = newPoint;
+            }
+        }
+
+        canvas.onmouseup = function (msg) {
+            using = false
+        }
     }
 }

@@ -1,5 +1,6 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
+var lineWidth = 5;
 autoSetCanvasSize(canvas);
 
 /*************/
@@ -43,6 +44,29 @@ blue.onclick = function(){
     green.classList.remove('active')
 }
 
+thin.onclick = function(){
+    lineWidth = 5;
+}
+
+thick.onclick = function(){
+    lineWidth = 10;
+}
+
+clear.onclick = function(){
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+}
+
+download.onclick = function(){
+    var url=canvas.toDataURL("./image/png")
+    var a = document.createElement('a')
+    document.body.appendChild(a)
+    a.href = url
+    a.download = 'my canvas'
+    a.target = '_blank'
+    a.click()
+}
+
+
 
 /****/
 
@@ -72,7 +96,7 @@ function drawCircle(x, y, radius) {
 function drawLine(x1, y1, x2, y2) {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
-    ctx.lineWidth = 5;
+    ctx.lineWidth = lineWidth;
     ctx.lineTo(x2, y2);
     ctx.stroke();
     ctx.closePath();

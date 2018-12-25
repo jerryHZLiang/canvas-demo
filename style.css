@@ -1,3 +1,4 @@
+/* iconfont 引入 */
 .icon {
     width: 1em; height: 1em;
     vertical-align: -0.15em;
@@ -5,56 +6,69 @@
     overflow: hidden;
  }
 
+/* 初始化 */
+*{  
+    margin: 0;
+    padding: 0;   
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+ul{list-style: none;}
+
+
+body {
+    overflow: hidden;
+}
+
 #canvas {
-    display: block;
-    background: white;
+    background: #eee;
     position: fixed;
     top: 0px;
     left: 0px;
 }
-
-*{margin: 0;padding: 0; }
-ul,ol{list-style: none;}
-
-body {
-    margin: 0px;
-    overflow: hidden;
+#options{
+    position: fixed;        /*使所有选项在canvas之上，此外也可以用z-index达到同样的效果*/
+    top:0;
+    right: 0;
+    padding: 10px;
 }
 
-.actions {
-    position: fixed;
-    left: 0;
-    top: 0;
-    padding: 20px;
+ul {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
-.actions svg{
+
+li {
+    cursor: pointer;
+    margin: 4px;
+}
+
+#actions svg{
     width: 1.5em;
     height: 1.5em;
     transition: all 0.3s;
-    margin: 0 10px;
+    margin: 0 5px;
 }
 
-.actions svg.active{
+#actions svg.active{
     fill: red;
-    transform: scale(1.2);
+    transform: scale(1.25);
     
-}
-
-.colors{
-    position: fixed;
-    top: 60px;
-    left: 28px;
 }
 
 .colors> li{
     width: 20px;
     height: 20px;
-    margin: 10px 0;
     border-radius: 50%;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
-    transition: 0.3s;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    transition: 0.2s ease-out;
 }
 
+.colors> li.black{
+    background: black;
+}
 .colors> li.red{
     background: red;
 }
@@ -71,23 +85,57 @@ body {
     transform: scale(1.2);
 }
 
-.sizes {
-    position: fixed;
-    right: 20px;
-    top: 10px;
-}
 
 .sizes > li{
-    margin: 20px 0;
+    margin: 10px;
+    height: 20px;
+    background-color: black;
+    box-shadow: 0 0 4px rgba(80, 80, 80, 0.4);
+    transition: all 0.2s ease-out;
+    position: relative;
 }
+
+.sizes > li::after{
+    content: '';
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    left: -4px;
+    right: -4px;
+  }
+
 .sizes > .thin{
-    height: 0;
-    width: 20px;
-    border-top: 3px solid black;
+    width: 2px;
+}
+.sizes > .middle{
+    width: 6px;
 }
 
 .sizes > .thick{
-    height: 0;
-    width: 20px;
-    border-top: 6px solid black;
+    width:10px;
+}
+
+.colors> li.active,
+.sizes > li.active
+{
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.95);
+    transform: scale(1.2);
+}
+
+.color.active,
+.sizes.active{
+  animation: active 0.2s;
+  transition: all 0.2s;
+}
+@keyframes active{
+  0%{
+    display: inline-flex;
+    transform: translate(-999px);
+  }
+  80%{
+    transform: translate(10px);
+  }
+  100%{
+    transform: translate(0px);
+  }
 }

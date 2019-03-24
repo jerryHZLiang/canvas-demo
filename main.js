@@ -5,11 +5,11 @@ var lineWidth = 3;
 var radius = 1;
 var eraserEnabled = false;
 
-// pen = document.getElementById("pen"),
-// eraser = document.getElementById("eraser"),
-// color = document.getElementById("color"),
-// thickness = document.getElementById("sizes"),
-// actions = document.getElementById("actions")
+var pen = document.getElementById("pen")
+var eraser = document.getElementById("eraser")
+var color = document.getElementById("color")
+var thickness = document.getElementById("sizes")
+var actions = document.getElementById("actions")
 
 autoSetCanvasSize(canvas);
 
